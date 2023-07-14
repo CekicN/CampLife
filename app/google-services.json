@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "660551396675",
+    "project_id": "camp-life-f5666",
+    "storage_bucket": "camp-life-f5666.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660551396675:android:be9033b210d9c9f4a393f6",
+        "android_client_info": {
+          "package_name": "com.example.camplife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "660551396675-l5asrefbj3druqonmgfshe31p0rcros5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoFx7njIi5hO_Mb9kYd9nG6Mvgac8Qe-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "660551396675-l5asrefbj3druqonmgfshe31p0rcros5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
