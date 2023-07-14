@@ -7,18 +7,22 @@ import android.widget.Toast
 import com.example.camplife.Models.User
 import com.example.camplife.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 class Register : AppCompatActivity() {
     private lateinit var binding:ActivityRegisterBinding;
     private lateinit var firebaseAuth: FirebaseAuth;
+    private lateinit var databaseReference: DatabaseReference;
+    private lateinit var firebaseDatabase: FirebaseDatabase;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater);
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("User");
         binding.signupButton.setOnClickListener{
             val username = binding.signupUsername.text.toString();
             val email = binding.signupEmail.text.toString();
@@ -32,8 +36,17 @@ class Register : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
                         if(it.isSuccessful)
                         {
-                            val intent = Intent(this, Login::class.java)
-                            startActivity(intent)
+                            var user = User(username, email);
+                            FirebaseDatabase.getInstance().getReference("User")
+                                .child(FirebaseAuth.getInstance().uid.toString())
+                                .setValue(user).addOnCompleteListener{
+                                    if(it.isSuccessful)
+                                    {
+                                        Toast.makeText(this, "Registration complete", Toast.LENGTH_SHORT).show();
+                                        val intent = Intent(this, Login::class.java)
+                                        startActivity(intent)
+                                    }
+                                }
                         }
                         else
                         {
