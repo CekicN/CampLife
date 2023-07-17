@@ -44,7 +44,7 @@ class Register : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
                         if(it.isSuccessful)
                         {
-                            var user = User(username, email, "");
+                            var user = User(username, email, "", "Address", "phoneNumber");
                             FirebaseDatabase.getInstance().getReference("User")
                                 .child(FirebaseAuth.getInstance().uid.toString())
                                 .setValue(user).addOnCompleteListener{
@@ -103,7 +103,7 @@ class Register : AppCompatActivity() {
         progres.setTitle("Registration..")
         progres.show();
 
-        FirebaseStorage.getInstance().getReference("profileImages/"+UUID.randomUUID().toString()).putFile(imagePath)
+        FirebaseStorage.getInstance().getReference("profileImages/"+ FirebaseAuth.getInstance().currentUser?.uid.toString()+"/"+"image.jpg").putFile(imagePath)
             .addOnCompleteListener {
                 if(it.isSuccessful)
                 {
