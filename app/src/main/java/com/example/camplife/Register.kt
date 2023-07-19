@@ -10,12 +10,16 @@ import com.example.camplife.Models.User
 import com.example.camplife.databinding.ActivityRegisterBinding
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 class Register : AppCompatActivity() {
     private lateinit var binding:ActivityRegisterBinding;
@@ -33,18 +37,19 @@ class Register : AppCompatActivity() {
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         binding.signupButton.setOnClickListener{
             val username = binding.signupUsername.text.toString();
-            val email = binding.signupEmail.text.toString();
+            val phone = binding.signupPhone.text.toString();
             val password = binding.signupPassword.text.toString();
             val confirmPassword = binding.signupConfirmPassword.text.toString();
 
-            if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty())
+            if(username.isNotEmpty() && phone.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty())
             {
                 if(password == confirmPassword)
                 {
+                    val email = username + "@gmail.com"
                     firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
                         if(it.isSuccessful)
                         {
-                            var user = User(username, email, "", "Address", "phoneNumber");
+                            var user = User(username, "", "Address", phone);
                             FirebaseDatabase.getInstance().getReference("User")
                                 .child(FirebaseAuth.getInstance().uid.toString())
                                 .setValue(user).addOnCompleteListener{
@@ -96,6 +101,7 @@ class Register : AppCompatActivity() {
             Toast.makeText(this,"Task Cancelled", Toast.LENGTH_SHORT).show();
 
     }
+
 
     fun uploadImage()
     {

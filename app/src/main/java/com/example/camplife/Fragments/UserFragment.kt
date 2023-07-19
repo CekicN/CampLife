@@ -51,7 +51,6 @@ class UserFragment : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_user, container, false)
 
         userName = view.findViewById(R.id.username);
-        userEmail = view.findViewById(R.id.useremail);
         userAddress = view.findViewById(R.id.useraddress);
         userPhone = view.findViewById(R.id.userphone);
         userImage = view.findViewById(R.id.userimage);
@@ -82,13 +81,11 @@ class UserFragment : Fragment() {
                 {
                     var dataSnap:DataSnapshot = it.result;
                     username = dataSnap.child("username").getValue().toString();
-                    email = dataSnap.child("email").getValue().toString();
                     imagePath = dataSnap.child("profileImage").getValue().toString();
                     address = dataSnap.child("address").getValue().toString();
                     phoneNumber = dataSnap.child("phoneNumber").getValue().toString();
 
                     userName.setText(username);
-                    userEmail.setText(email);
                     userAddress.setText(address);
                     userPhone.setText(phoneNumber);
                     Picasso.get()
@@ -108,7 +105,6 @@ class UserFragment : Fragment() {
 
         intent.putExtra("imagePath", imagePath);
         intent.putExtra("username", username);
-        intent.putExtra("email", email);
         intent.putExtra("address", address);
         intent.putExtra("phoneNumber", phoneNumber);
 

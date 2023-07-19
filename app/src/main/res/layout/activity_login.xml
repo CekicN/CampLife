@@ -17,15 +17,15 @@
             android:layout_marginTop="320dp"
             android:padding="20dp">
             <EditText
-                android:id="@+id/login_email"
+                android:id="@+id/login_username"
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/orange_border"
                 android:padding="8dp"
-                android:hint="Email"
+                android:hint="Username"
                 android:inputType="text"
-                android:drawableLeft="@drawable/baseline_email_24"
+                android:drawableLeft="@drawable/baseline_perm_identity_orange"
                 android:drawablePadding="8dp"
                 android:textColor="@color/grey"/>
             <EditText

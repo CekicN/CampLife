@@ -61,18 +61,6 @@
                 android:drawablePadding="8dp"
                 android:textColor="@color/grey"/>
             <EditText
-                android:id="@+id/edit_email"
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/orange_border"
-                android:padding="8dp"
-                android:hint="Email"
-                android:inputType="text"
-                android:drawableLeft="@drawable/baseline_email_24"
-                android:drawablePadding="8dp"
-                android:textColor="@color/grey"/>
-            <EditText
                 android:id="@+id/edit_address"
                 android:layout_width="350dp"
                 android:layout_height="60dp"

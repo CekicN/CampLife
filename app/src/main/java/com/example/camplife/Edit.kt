@@ -24,7 +24,6 @@ class Edit : AppCompatActivity() {
     private lateinit var reference: DatabaseReference;
 
     private var username:String = "";
-    private var email:String = "";
     private var imagePath:String = "";
     private var address:String = "";
     private var phoneNumber:String = "";
@@ -41,8 +40,8 @@ class Edit : AppCompatActivity() {
         showData();
 
         binding.save.setOnClickListener{
-            isEmailChanged { result ->
-                if(isNameChanged() or result or isAddressChanged() or isPhoneChanged())
+            isUsernameChanged { result ->
+                if(result or isAddressChanged() or isPhoneChanged())
                 {
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
                 }
@@ -105,24 +104,16 @@ class Edit : AppCompatActivity() {
             .child("profileImage")
             .setValue(url);
     }
-    private fun isNameChanged():Boolean
+
+    private fun isUsernameChanged(callback:(Boolean) -> Unit)
     {
         if(!username.equals(binding.editUsername.text.toString())){
-            reference.child("username").setValue(binding.editUsername.text.toString());
-            username = binding.editUsername.text.toString();
-            return true;
-        }
-        return false;
-    }
-
-    private fun isEmailChanged(callback:(Boolean) -> Unit)
-    {
-        if(!email.equals(binding.editEmail.text.toString())){
-            FirebaseAuth.getInstance().currentUser?.updateEmail(binding.editEmail.text.toString())?.addOnCompleteListener {
+            val email = binding.editUsername.text.toString() + "@gmail.com";
+            FirebaseAuth.getInstance().currentUser?.updateEmail(email)?.addOnCompleteListener {
                 if(it.isSuccessful)
                 {
-                    reference.child("email").setValue(binding.editEmail.text.toString());
-                    email = binding.editEmail.text.toString();
+                    reference.child("username").setValue(binding.editUsername.text.toString());
+                    username = binding.editUsername.text.toString();
                     callback(true);
                 }
                 else
@@ -158,7 +149,6 @@ class Edit : AppCompatActivity() {
     {
         imagePath = intent.getStringExtra("imagePath").toString();
         username = intent.getStringExtra("username").toString();
-        email = intent.getStringExtra("email").toString();
         address = intent.getStringExtra("address").toString();
         phoneNumber = intent.getStringExtra("phoneNumber").toString();
 
@@ -167,7 +157,6 @@ class Edit : AppCompatActivity() {
             .load(imagePath)
             .into(binding.editImage);
         binding.editUsername.setText(username);
-        binding.editEmail.setText(email);
         binding.editAddress.setText(address);
         binding.editPhone.setText(phoneNumber);
 

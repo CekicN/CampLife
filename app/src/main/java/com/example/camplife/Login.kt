@@ -22,9 +22,9 @@ class Login : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.loginButton.setOnClickListener{
-            val email = binding.loginEmail.text.toString();
+            val username = binding.loginUsername.text.toString();
             val password = binding.loginPassword.text.toString();
-
+            val email = username + "@gmail.com";
             if(email.isNotEmpty() && password.isNotEmpty())
             {
                 firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener{
