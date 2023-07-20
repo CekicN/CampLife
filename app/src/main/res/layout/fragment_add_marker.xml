@@ -31,7 +31,7 @@
                 ></TextView>
 
             <EditText
-                android:id="@+id/signup_username"
+                android:id="@+id/addmarker_campname"
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
@@ -44,7 +44,7 @@
                 android:textColor="@color/grey" />
 
             <EditText
-                android:id="@+id/signup_phone"
+                android:id="@+id/addmarker_phone"
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
@@ -57,48 +57,77 @@
                 android:textColor="@color/grey" />
 
             <EditText
-                android:id="@+id/signup_password"
+                android:id="@+id/addmarker_address"
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/orange_border"
-                android:drawableLeft="@drawable/baseline_lock_24"
+                android:drawableLeft="@drawable/baseline_location_on_24"
                 android:drawablePadding="8dp"
-                android:hint="Password"
-                android:inputType="textPassword"
+                android:hint="Address"
                 android:padding="8dp"
                 android:textColor="@color/grey" />
 
             <EditText
-                android:id="@+id/signup_confirmPassword"
+                android:id="@+id/addmarker_description"
                 android:layout_width="350dp"
-                android:layout_height="60dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/orange_border"
-                android:drawableLeft="@drawable/baseline_password_24"
                 android:drawablePadding="8dp"
-                android:hint="Password"
-                android:inputType="textPassword"
+                android:hint="Description"
+                android:inputType="text|textMultiLine"
+                android:drawableLeft="@drawable/baseline_notes_24"
                 android:padding="8dp"
                 android:textColor="@color/grey" />
-
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/slider"
+                android:layout_width="350dp"
+                android:layout_height="150dp"
+                app:iss_auto_cycle="true"
+                app:iss_period="2500"
+                app:iss_delay="0"
+                />
             <Button
-                android:id="@+id/signupButton"
+                android:id="@+id/addmarker_uploadImages"
                 android:layout_width="350dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="30dp"
-                android:text="Sign Up"
-                android:textSize="18sp" />
+                android:text="Upload"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/addmarker_cancel"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="8dp"
+                android:backgroundTint="@color/orange_200"
+                tools:ignore="MissingConstraints" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/loginRediectText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:text="Already an user?Login"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                <Button
+                    android:id="@+id/addmarker_add"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:text="Add"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/addmarker_cancel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="8dp"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/addmarker_cancel"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="#B3ADA6"
+                    android:text="Cancel"
+                    android:textColor="#3C332E"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="8dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </LinearLayout>

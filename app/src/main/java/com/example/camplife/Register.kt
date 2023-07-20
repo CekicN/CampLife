@@ -105,27 +105,27 @@ class Register : AppCompatActivity() {
 
     fun uploadImage()
     {
-        var progres = ProgressDialog(this);
-        progres.setTitle("Registration..")
-        progres.show();
+        if(imagePath != null) {
+            var progres = ProgressDialog(this);
+            progres.setTitle("Registration..")
+            progres.show();
 
-        FirebaseStorage.getInstance().getReference("profileImages/"+ FirebaseAuth.getInstance().currentUser?.uid.toString()+"/"+"image.jpg").putFile(imagePath)
-            .addOnCompleteListener {
-                if(it.isSuccessful)
-                {
-                    it.getResult().storage.downloadUrl.addOnCompleteListener {
-                        if(it.isSuccessful)
-                        {
-                            updateProfileImage(it.getResult().toString());
-                        }
-                    };
+            FirebaseStorage.getInstance()
+                .getReference("profileImages/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/" + "image.jpg")
+                .putFile(imagePath)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        it.getResult().storage.downloadUrl.addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                updateProfileImage(it.getResult().toString());
+                            }
+                        };
+                    } else {
+                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                    progres.dismiss();
                 }
-                else
-                {
-                    Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show();
-                }
-                progres.dismiss();
-            }
+        }
     }
 
     private fun updateProfileImage(url: String) {
