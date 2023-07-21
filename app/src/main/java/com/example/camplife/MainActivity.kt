@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
+import com.example.camplife.Fragments.MapContainerFragment
 import com.example.camplife.Fragments.MapFragment
 import com.example.camplife.Fragments.StarFragment
 import com.example.camplife.Fragments.UserFragment
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNavigation = findViewById<MeowBottomNavigation>(R.id.bottomNavigation);
-        setFragment(MapFragment.newInstance());
+        setFragment(MapContainerFragment.newInstance());
         bottomNavigation.show(1);
         bottomNavigation.add(MeowBottomNavigation.Model(0, R.drawable.baseline_star_24));
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.baseline_map_24));
@@ -28,13 +29,13 @@ class MainActivity : AppCompatActivity() {
                     setFragment(StarFragment.newInstance());
                 }
                 1-> {
-                    setFragment(MapFragment.newInstance());
+                    setFragment(MapContainerFragment.newInstance());
                 }
                 2-> {
                     setFragment(UserFragment.newInstance());
                 }
                 else->{
-                    setFragment(MapFragment.newInstance());
+                    setFragment(MapContainerFragment.newInstance());
                 }
             }
         }

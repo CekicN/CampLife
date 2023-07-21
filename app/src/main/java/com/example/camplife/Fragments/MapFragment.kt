@@ -45,7 +45,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 
 
-class MapFragment : Fragment(),OnMapReadyCallback {
+class MapFragment : Fragment(),OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location;
@@ -89,6 +89,8 @@ class MapFragment : Fragment(),OnMapReadyCallback {
         }
         return view;
     }
+
+
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
         @JvmStatic
@@ -107,16 +109,15 @@ class MapFragment : Fragment(),OnMapReadyCallback {
 
         setUpMap();
         getMarkers();
+
         mMap.setOnMarkerClickListener(OnMarkerClickListener {
             val id = it.tag as String?
             if (!id.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), id, Toast.LENGTH_SHORT).show();
                 showDialog(id);
             }
             false
         })
     }
-
     private fun showDialog(id:String) {
         val dialog = Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -166,8 +167,9 @@ class MapFragment : Fragment(),OnMapReadyCallback {
                         val longitude = lng.toDouble()
                         val loc = LatLng(latitude, longitude)
                         val campId = campSnapshot.child("postId").value.toString()
+                        val campName = campSnapshot.child("campName").value.toString()
 
-                        placeMakerOnMap(loc, campId);
+                        placeMakerOnMap(loc, campId, campName);
                     }
                 }
             }
@@ -193,15 +195,23 @@ class MapFragment : Fragment(),OnMapReadyCallback {
             if(it != null)
             {
                 lastLocation = it
-                val currentLatLng = LatLng(it.latitude, it.longitude);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                var currentLatLng = LatLng(it.latitude, it.longitude);
+                if(arguments?.isEmpty == false)
+                {
+                    val lat = arguments?.getDouble("lat");
+                    val lng = arguments?.getDouble("lng");
+
+                    currentLatLng = LatLng(lat!!, lng!!);
+                }
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 18f))
             }
         }
     }
 
-    private fun placeMakerOnMap(loc: LatLng, markerId:String) {
+    private fun placeMakerOnMap(loc: LatLng, markerId:String, campName:String) {
         val mMarker = mMap.addMarker(
             MarkerOptions().position(loc)
+                .title(campName)
                 .icon(
                     BitmapDescriptorFactory.fromResource(R.drawable.tent)
                 )
@@ -209,4 +219,5 @@ class MapFragment : Fragment(),OnMapReadyCallback {
 
         mMarker?.tag = markerId;
     }
+
 }

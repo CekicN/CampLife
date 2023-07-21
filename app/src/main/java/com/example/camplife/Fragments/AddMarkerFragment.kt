@@ -99,7 +99,7 @@ class AddMarkerFragment : Fragment() {
                 reference.child(randKey).setValue(marker).addOnCompleteListener {
                     if(it.isSuccessful)
                     {
-                        val nextFrag = MapFragment.newInstance();
+                        val nextFrag = MapContainerFragment.newInstance();
                         (activity as MainActivity).setFragment(nextFrag);
                         Toast.makeText(requireContext(), "Camp added", Toast.LENGTH_SHORT).show();
                     }
