@@ -10,6 +10,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,10 +24,13 @@ import com.example.camplife.MainActivity
 import com.example.camplife.Models.MarkerModel
 import com.example.camplife.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.UUID
 import kotlin.properties.Delegates
 
@@ -95,10 +99,15 @@ class AddMarkerFragment : Fragment() {
 
             if(campNameText.isNotEmpty() && phoneText.isNotEmpty() && addressText.isNotEmpty() && descriptionText.isNotEmpty())
             {
-                var marker = MarkerModel(randKey,campNameText, phoneText, addressText, descriptionText, pathList, lat, lng);
+                val sdf = SimpleDateFormat("dd/M/yyyy")
+                val currentDate = sdf.format(Date())
+                var marker = MarkerModel(randKey,campNameText, phoneText, addressText, descriptionText, pathList, lat, lng, currentDate);
                 reference.child(randKey).setValue(marker).addOnCompleteListener {
                     if(it.isSuccessful)
                     {
+
+                        updatePoints();
+
                         val nextFrag = MapContainerFragment.newInstance();
                         (activity as MainActivity).setFragment(nextFrag);
                         Toast.makeText(requireContext(), "Camp added", Toast.LENGTH_SHORT).show();
@@ -124,11 +133,31 @@ class AddMarkerFragment : Fragment() {
                     }
                 }
             }
-            val nextFrag = MapFragment.newInstance();
+            val nextFrag = MapContainerFragment.newInstance();
             (activity as MainActivity).setFragment(nextFrag);
         }
         return view;
     }
+
+    private fun updatePoints() {
+        var points:Int = 0;
+        FirebaseDatabase.getInstance().getReference("User")
+            .child(FirebaseAuth.getInstance().currentUser?.uid.toString())
+            .get().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    if (it.result.exists()) {
+                        var dataSnap: DataSnapshot = it.result;
+                        var sPoints = dataSnap.child("points").value.toString()
+                        points = sPoints.toInt();
+                        points += 10;
+                        FirebaseDatabase.getInstance().getReference("User")
+                            .child(FirebaseAuth.getInstance().currentUser?.uid.toString())
+                            .child("points").setValue(points);
+                    }
+                }
+            }
+    }
+
     private fun openGalleryForImages() {
 
         if (Build.VERSION.SDK_INT < 19) {

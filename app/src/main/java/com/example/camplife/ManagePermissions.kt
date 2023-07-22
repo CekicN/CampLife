@@ -34,7 +34,6 @@ class ManagePermissions(val activity: Activity,val list: List<String>,val code:I
     }
 
 
-    // Show alert dialog to request permissions
     private fun showAlert() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Need permission(s)")
@@ -46,7 +45,6 @@ class ManagePermissions(val activity: Activity,val list: List<String>,val code:I
     }
 
 
-    // Request the permissions at run time
     private fun requestPermissions() {
         val permission = deniedPermission()
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
@@ -58,7 +56,6 @@ class ManagePermissions(val activity: Activity,val list: List<String>,val code:I
     }
 
 
-    // Process permissions result
     fun processPermissionsResult(requestCode: Int, permissions: Array<String>,
                                  grantResults: IntArray): Boolean {
         var result = 0

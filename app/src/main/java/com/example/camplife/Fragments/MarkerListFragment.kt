@@ -62,7 +62,7 @@ class MarkerListFragment : Fragment() {
                         campSnapshot.child("imagePaths").children.forEach {
                             listaSlika.add(it.value.toString());
                         }
-                        markerList.add(MarkerModel("",  campName,campPhone, campAddress,"",listaSlika, latitude, longitude));
+                        markerList.add(MarkerModel("",  campName,campPhone, campAddress,"",listaSlika, latitude, longitude,""));
                     }
 
                     listView.isClickable = true;

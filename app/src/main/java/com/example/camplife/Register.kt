@@ -49,7 +49,7 @@ class Register : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
                         if(it.isSuccessful)
                         {
-                            var user = User(username, "", "Address", phone);
+                            var user = User(username, "", "Address", phone,0);
                             FirebaseDatabase.getInstance().getReference("User")
                                 .child(FirebaseAuth.getInstance().uid.toString())
                                 .setValue(user).addOnCompleteListener{

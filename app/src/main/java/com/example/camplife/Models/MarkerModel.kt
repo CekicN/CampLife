@@ -1,5 +1,7 @@
 package com.example.camplife.Models
 
+import java.util.Date
+
 class MarkerModel {
     public lateinit var postId:String;
     public lateinit var campName:String;
@@ -11,7 +13,9 @@ class MarkerModel {
     public var latitude:Double? = null;
     public var longitude:Double? = null;
 
-    constructor(id:String, n:String,p:String, a:String, d:String, i:ArrayList<String>, lat:Double?, lng:Double?)
+    public lateinit var date:String;
+
+    constructor(id:String, n:String,p:String, a:String, d:String, i:ArrayList<String>, lat:Double?, lng:Double?, date:String)
     {
         postId = id
         campName = n;
@@ -21,5 +25,6 @@ class MarkerModel {
         imagePaths = i;
         latitude = lat;
         longitude = lng;
+        this.date = date;
     }
 }
