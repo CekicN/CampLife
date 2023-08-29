@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -50,6 +51,7 @@ class MapFragment : Fragment(),OnMapReadyCallback{
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location;
     private lateinit var fusedLocation: FusedLocationProviderClient
+    private lateinit var searchBar: SearchView;
 
     private lateinit var addMarker:FloatingActionButton;
 
@@ -72,9 +74,11 @@ class MapFragment : Fragment(),OnMapReadyCallback{
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        searchBar = view.findViewById(R.id.searchBar);
         addMarker = view.findViewById(R.id.addMarker);
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireActivity());
         databaseReference = FirebaseDatabase.getInstance().getReference("campMarkers")
+
         addMarker.setOnClickListener{
             val lat = lastLocation.latitude;
             val lng = lastLocation.longitude;
@@ -87,9 +91,27 @@ class MapFragment : Fragment(),OnMapReadyCallback{
 
             (activity as MainActivity).setFragment(nextFrag);
         }
+
+
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(markerName: String?): Boolean {
+                if(markerName != null)
+                {
+                    searchMarker(markerName);
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(markerName: String?): Boolean {
+                if(markerName != null)
+                {
+                    searchMarker(markerName);
+                }
+                return false
+            }
+        })
         return view;
     }
-
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -154,6 +176,31 @@ class MapFragment : Fragment(),OnMapReadyCallback{
         dialog.window?.setGravity(Gravity.BOTTOM);
     }
 
+    private fun searchMarker(markerName:String?)
+    {
+        databaseReference.orderByChild("campName").startAt(markerName).endAt(markerName + "\uf8ff").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists())
+                {
+                    var campSnapshot:DataSnapshot = snapshot;
+                    for (child in snapshot.children) {
+                        campSnapshot = child;
+                        break;
+                    }
+                    val lat: String = campSnapshot.child("latitude").value.toString()
+                    val lng: String = campSnapshot.child("longitude").value.toString()
+                    val latitude = lat.toDouble()
+                    val longitude = lng.toDouble()
+                    val loc = LatLng(latitude, longitude)
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 18f));
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
     private fun getMarkers() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
