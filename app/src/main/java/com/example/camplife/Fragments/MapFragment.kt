@@ -18,11 +18,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.camplife.Fragments.AddMarkerFragment.Companion.newInstance
 import com.example.camplife.MainActivity
 import com.example.camplife.R
+import com.example.camplife.SharedViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -63,6 +65,8 @@ class MapFragment : Fragment(),OnMapReadyCallback{
 
     private lateinit var databaseReference: DatabaseReference;
 
+    private lateinit var sharedViewModel: SharedViewModel;
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,7 +74,7 @@ class MapFragment : Fragment(),OnMapReadyCallback{
 
         var view = inflater.inflate(R.layout.fragment_map, container, false)
 
-
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -242,6 +246,7 @@ class MapFragment : Fragment(),OnMapReadyCallback{
             if(it != null)
             {
                 lastLocation = it
+                this.sharedViewModel.setLocation(it);
                 var currentLatLng = LatLng(it.latitude, it.longitude);
                 if(arguments?.isEmpty == false)
                 {

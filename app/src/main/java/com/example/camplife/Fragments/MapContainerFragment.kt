@@ -6,13 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.camplife.R
+import com.example.camplife.SharedViewModel
 import com.google.android.material.tabs.TabLayout
 
 
 class MapContainerFragment : Fragment() {
 
     private lateinit var tabLayout:TabLayout;
+    private lateinit var sharedViewModel: SharedViewModel;
+
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,6 +26,7 @@ class MapContainerFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_map_container, container, false);
 
         tabLayout= view.findViewById(R.id.tab_layout);
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
         tabLayout.addTab(tabLayout.newTab().setText("Camp List"));
